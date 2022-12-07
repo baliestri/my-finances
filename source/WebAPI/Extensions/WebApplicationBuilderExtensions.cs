@@ -1,6 +1,9 @@
 ﻿// Copyright (c) Bruno Sales <me@baliestri.dev>. Licensed under the MIT License.
 // See the LICENSE file in the repository root for full license text.
 
+using MyFinances.Application;
+using MyFinances.IoC;
+
 namespace MyFinances.WebAPI.Extensions;
 
 /// <summary>
@@ -21,6 +24,8 @@ public static class WebApplicationBuilderExtensions {
       .AddSwagger()
       .AddConfiguredRouting()
       .AddCustomProblemDetailsFactory()
+      .AddApplicationLayer()
+      .AddIoCLayer(configuration)
       .AddControllers();
 
     return builder.Build();
