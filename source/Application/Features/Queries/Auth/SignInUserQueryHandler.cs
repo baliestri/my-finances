@@ -30,18 +30,7 @@ public sealed class SignInUserQueryHandler : IRequestHandler<SignInUserQuery, Er
     var (userName, email, password) = request;
     _logger.LogInformation("Attempting to sign in user {UserName} ({Email})", userName, email);
 
-    var isUserNameEmpty = string.IsNullOrWhiteSpace(userName);
     var isEmailEmpty = string.IsNullOrWhiteSpace(email);
-
-    if (isEmailEmpty && isUserNameEmpty) {
-      _logger.LogWarning("The username or email was not provided");
-      return AuthErrors.UserNameOrEmailFieldRequired;
-    }
-
-    if (!isUserNameEmpty &&
-        !isEmailEmpty) {
-      _logger.LogWarning("Both username and email were provided, using email");
-    }
 
     var user = isEmailEmpty
       ? await _userRepository.FindByUserNameAsync(userName!)
