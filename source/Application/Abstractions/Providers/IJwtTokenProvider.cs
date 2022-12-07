@@ -5,4 +5,5 @@ namespace MyFinances.Application.Abstractions.Providers;
 
 public interface IJwtTokenProvider {
   string GenerateAccessToken(string userId, string userName, string email);
+  DateTime GetExpirationDate(string token);
 }
