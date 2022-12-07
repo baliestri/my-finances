@@ -2,6 +2,8 @@
 // See the LICENSE file in the repository root for full license text.
 
 using System.Reflection;
+using Mapster;
+using MapsterMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.OpenApi.Models;
@@ -112,4 +114,18 @@ public static class ServiceCollectionExtensions {
   public static IServiceCollection AddCustomProblemDetailsFactory(this IServiceCollection serviceCollection)
     => serviceCollection
       .AddTransient<ProblemDetailsFactory, CustomProblemDetailsFactory>();
+
+  /// <summary>
+  ///   Adds the Mapster to the service collection.
+  /// </summary>
+  /// <param name="serviceCollection">The <see cref="IServiceCollection" />.</param>
+  /// <returns></returns>
+  public static IServiceCollection AddMappings(this IServiceCollection serviceCollection) {
+    var config = TypeAdapterConfig.GlobalSettings;
+    config.Scan(typeof(IServiceCollection).Assembly);
+
+    return serviceCollection
+      .AddSingleton(config)
+      .AddScoped<IMapper, ServiceMapper>();
+  }
 }
