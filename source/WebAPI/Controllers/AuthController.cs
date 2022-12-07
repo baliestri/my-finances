@@ -48,7 +48,7 @@ public sealed class AuthController : BaseController {
     var command = _mapper.Map<CreateUserCommand>(request);
     var resultOrError = await _mediator.Send(command);
 
-    return resultOrError.Match(auth => Created("auth", auth), Problem);
+    return resultOrError.Match(auth => Created("auth", auth), HandleProblem);
   }
 
   /// <summary>
@@ -67,6 +67,6 @@ public sealed class AuthController : BaseController {
     var query = _mapper.Map<SignInUserQuery>(request);
     var resultOrError = await _mediator.Send(query);
 
-    return resultOrError.Match(Ok, Problem);
+    return resultOrError.Match(Ok, HandleProblem);
   }
 }
