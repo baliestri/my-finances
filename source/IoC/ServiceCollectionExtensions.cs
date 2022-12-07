@@ -3,17 +3,24 @@
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using MyFinances.Core.Abstractions.Persistence.Repositories;
 using MyFinances.IoC.Options;
+using MyFinances.IoC.Persistence.Repositories;
 
 namespace MyFinances.IoC;
 
 public static class ServiceCollectionExtensions {
   public static IServiceCollection AddIoCLayer(this IServiceCollection serviceCollection, IConfiguration configuration)
     => serviceCollection
-      .AddIoCOptions(configuration);
+      .AddIoCOptions(configuration)
+      .AddRepositories();
 
   private static IServiceCollection AddIoCOptions(
     this IServiceCollection serviceCollection, IConfiguration configuration
   ) => serviceCollection
     .Configure<JwtTokenOptions>(configuration.GetSection("JwtToken"));
+
+  private static IServiceCollection AddRepositories(this IServiceCollection serviceCollection)
+    => serviceCollection
+      .AddSingleton<IUserRepository, UserRepository>(); // Singleton until we have a database
 }
