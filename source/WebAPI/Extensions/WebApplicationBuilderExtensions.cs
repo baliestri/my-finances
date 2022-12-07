@@ -26,6 +26,7 @@ public static class WebApplicationBuilderExtensions {
       .AddCustomProblemDetailsFactory()
       .AddApplicationLayer()
       .AddIoCLayer(configuration)
+      .AddMappings()
       .AddControllers();
 
     return builder.Build();

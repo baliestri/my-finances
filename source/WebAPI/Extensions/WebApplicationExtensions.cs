@@ -20,6 +20,7 @@ public static class WebApplicationExtensions {
 
     app
       .UseSwaggerForDevelopment()
+      .UseExceptionHandler("/api/error")
       .UseHttpsRedirection()
       .UseAuthorization()
       .UseRouting()

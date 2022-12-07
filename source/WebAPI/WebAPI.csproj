@@ -7,10 +7,13 @@
     <AssemblyName>MyFinances.WebAPI</AssemblyName>
     <RootNamespace>MyFinances.WebAPI</RootNamespace>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <UserSecretsId>218c0de7-0044-43b3-862b-795b548d1e80</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Mapster" Version="7.4.0-pre03" />
     <PackageReference Include="ErrorOr" Version="1.2.1" />
+    <PackageReference Include="Mapster.DependencyInjection" Version="1.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="5.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.0" />
     <PackageReference Include="Serilog" Version="2.12.0" />
