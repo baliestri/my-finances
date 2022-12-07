@@ -47,4 +47,11 @@ public static class AuthErrors {
       "ERR_AUTH_DUPLICATE_USERNAME",
       "The provided username is already in use."
     );
+
+  public static Error UserNameOrEmailFieldRequired
+    => Error.Custom(
+      (int)HttpErrorType.BadRequest,
+      "ERR_AUTH_USERNAME_OR_EMAIL_FIELD_REQUIRED",
+      "The username or email field is required."
+    );
 }
