@@ -33,8 +33,7 @@ public sealed class SignInUserQueryHandler : IRequestHandler<SignInUserQuery, Er
     var isUserNameEmpty = string.IsNullOrWhiteSpace(userName);
     var isEmailEmpty = string.IsNullOrWhiteSpace(email);
 
-    if ((isEmailEmpty && !isUserNameEmpty) ||
-        (isUserNameEmpty && !isEmailEmpty)) {
+    if (isEmailEmpty && isUserNameEmpty) {
       _logger.LogWarning("The username or email was not provided");
       return AuthErrors.UserNameOrEmailFieldRequired;
     }
