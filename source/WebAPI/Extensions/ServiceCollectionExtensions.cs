@@ -3,7 +3,9 @@
 
 using System.Reflection;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.OpenApi.Models;
+using MyFinances.WebAPI.Factories;
 using Serilog;
 using Serilog.Templates;
 using Serilog.Templates.Themes;
@@ -33,7 +35,8 @@ public static class ServiceCollectionExtensions {
   /// <param name="serviceCollection">The <see cref="IServiceCollection" />.</param>
   /// <returns></returns>
   public static IServiceCollection AddConfiguredRouting(this IServiceCollection serviceCollection)
-    => serviceCollection.AddRouting(options => options.LowercaseUrls = true);
+    => serviceCollection
+      .AddRouting(options => options.LowercaseUrls = true);
 
   /// <summary>
   ///   Adds the logger to the service collection.
@@ -41,16 +44,17 @@ public static class ServiceCollectionExtensions {
   /// <param name="serviceCollection">The <see cref="IServiceCollection" />.</param>
   /// <returns></returns>
   public static IServiceCollection AddLogger(this IServiceCollection serviceCollection)
-    => serviceCollection.AddLogging(
-      builder => builder
-        .ClearProviders()
-        .AddSerilog(
-          new LoggerConfiguration()
-            .WriteTo.File(_loggerFile, rollingInterval: RollingInterval.Day)
-            .WriteTo.Console(_loggerTemplate)
-            .CreateLogger()
-        )
-    );
+    => serviceCollection
+      .AddLogging(
+        builder => builder
+          .ClearProviders()
+          .AddSerilog(
+            new LoggerConfiguration()
+              .WriteTo.File(_loggerFile, rollingInterval: RollingInterval.Day)
+              .WriteTo.Console(_loggerTemplate)
+              .CreateLogger()
+          )
+      );
 
   /// <summary>
   ///   Adds the Swagger to the service collection.
@@ -58,7 +62,8 @@ public static class ServiceCollectionExtensions {
   /// <param name="serviceCollection">The <see cref="IServiceCollection" />.</param>
   /// <returns></returns>
   public static IServiceCollection AddSwagger(this IServiceCollection serviceCollection)
-    => serviceCollection.AddApiVersioning(
+    => serviceCollection
+      .AddApiVersioning(
         options => {
           options.DefaultApiVersion = new ApiVersion(1, 0);
           options.AssumeDefaultVersionWhenUnspecified = true;
@@ -98,4 +103,13 @@ public static class ServiceCollectionExtensions {
           options.AddSecurityRequirement(securityRequirement);
         }
       );
+
+  /// <summary>
+  ///   Adds the custom problem details factory to the service collection.
+  /// </summary>
+  /// <param name="serviceCollection">The <see cref="IServiceCollection" />.</param>
+  /// <returns></returns>
+  public static IServiceCollection AddCustomProblemDetailsFactory(this IServiceCollection serviceCollection)
+    => serviceCollection
+      .AddTransient<ProblemDetailsFactory, CustomProblemDetailsFactory>();
 }

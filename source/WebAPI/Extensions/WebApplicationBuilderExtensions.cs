@@ -20,6 +20,7 @@ public static class WebApplicationBuilderExtensions {
       .AddLogger()
       .AddSwagger()
       .AddConfiguredRouting()
+      .AddCustomProblemDetailsFactory()
       .AddControllers();
 
     return builder.Build();
