@@ -22,7 +22,5 @@ public sealed class User : BaseEntity {
   public string Email { get; set; } = null!;
   public string Password { get; set; } = null!;
 
-  public string? RefreshToken { get; set; }
-  public DateTime? RefreshTokenExpiration { get; set; }
+  public IEnumerable<BankAccount> BankAccounts { get; set; } = null!;
 }
-
