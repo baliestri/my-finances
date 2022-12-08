@@ -5,18 +5,18 @@ using MyFinances.Core.Primitives;
 
 namespace MyFinances.Core.Entities;
 
-public sealed class UserEntity : BaseEntity {
-  public UserEntity() { }
+public sealed class User : BaseEntity {
+  public User() { }
 
-  public UserEntity(string userName, string firstName, string lastName, string email, string password) {
-    UserName = userName;
+  public User(string username, string firstName, string lastName, string email, string password) {
+    Username = username;
     FirstName = firstName;
     LastName = lastName;
     Email = email;
     Password = password;
   }
 
-  public string UserName { get; set; } = null!;
+  public string Username { get; set; } = null!;
   public string FirstName { get; set; } = null!;
   public string LastName { get; set; } = null!;
   public string Email { get; set; } = null!;
@@ -25,3 +25,4 @@ public sealed class UserEntity : BaseEntity {
   public string? RefreshToken { get; set; }
   public DateTime? RefreshTokenExpiration { get; set; }
 }
+

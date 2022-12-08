@@ -46,7 +46,7 @@ public sealed class SignInUserQueryHandler : IRequestHandler<SignInUserQuery, Er
       return AuthErrors.InvalidCredentials;
     }
 
-    var accessToken = _tokenProvider.GenerateAccessToken(user.Id, user.UserName, user.Email);
+    var accessToken = _tokenProvider.GenerateAccessToken(user.Id, user.Username, user.Email);
     var accessTokenExpirationDate = _tokenProvider.GetExpirationDate(accessToken);
     _logger.LogInformation("User signed in successfully");
 

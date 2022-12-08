@@ -42,7 +42,7 @@ public sealed class CreateUserCommandHandler : IRequestHandler<CreateUserCommand
     }
 
     try {
-      var user = new UserEntity(userName, firstName, lastName, email, password);
+      var user = new User(userName, firstName, lastName, email, password);
       await _userRepository.AddAsync(user);
       var accessToken = _tokenProvider.GenerateAccessToken(user.Id, userName, email);
       var accessTokenExpirationDate = _tokenProvider.GetExpirationDate(accessToken);
@@ -56,3 +56,4 @@ public sealed class CreateUserCommandHandler : IRequestHandler<CreateUserCommand
     }
   }
 }
+
