@@ -6,8 +6,7 @@ using MyFinances.Core.Entities;
 
 namespace MyFinances.Core.Abstractions.Persistence.Repositories;
 
-public interface IUserRepository : IRepository<User> {
-  Task<User?> FindByEmailAsync(string email);
-  Task<User?> FindByUserNameAsync(string userName);
+public interface IBankRepository : IRepository<Bank> {
+  Task<Bank?> GetByNameAsync(string name);
 }
 
