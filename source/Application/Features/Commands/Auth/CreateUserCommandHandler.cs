@@ -36,7 +36,7 @@ public sealed class CreateUserCommandHandler : IRequestHandler<CreateUserCommand
       return AuthErrors.DuplicateEmail;
     }
 
-    if (await _userRepository.FindByUserNameAsync(userName) is not null) {
+    if (await _userRepository.FindByUsernameAsync(userName) is not null) {
       _logger.LogWarning("The provided username '{UserName}' is already in use", userName);
       return AuthErrors.DuplicateUsername;
     }
@@ -56,4 +56,3 @@ public sealed class CreateUserCommandHandler : IRequestHandler<CreateUserCommand
     }
   }
 }
-

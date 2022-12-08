@@ -20,10 +20,9 @@ public sealed class UserRepository : Repository<User>, IUserRepository {
     return await Task.FromResult(Entities.FirstOrDefault(u => u.Email == email));
   }
 
-  public async Task<User?> FindByUserNameAsync(string userName) {
+  public async Task<User?> FindByUsernameAsync(string userName) {
     _logger.LogInformation("Finding user by username: {UserName}", userName);
 
     return await Task.FromResult(Entities.FirstOrDefault(u => u.Username == userName));
   }
 }
-

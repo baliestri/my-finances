@@ -27,13 +27,13 @@ public sealed class SignInUserQueryHandler : IRequestHandler<SignInUserQuery, Er
   public async Task<ErrorOr<SuccessfulAuthResponse>> Handle(
     SignInUserQuery request, CancellationToken cancellationToken
   ) {
-    var (userName, email, password) = request;
-    _logger.LogInformation("Attempting to sign in user {UserName} ({Email})", userName, email);
+    var (username, email, password) = request;
+    _logger.LogInformation("Attempting to sign in user {UserName} ({Email})", username, email);
 
     var isEmailEmpty = string.IsNullOrWhiteSpace(email);
 
     var user = isEmailEmpty
-      ? await _userRepository.FindByUserNameAsync(userName!)
+      ? await _userRepository.FindByUsernameAsync(username!)
       : await _userRepository.FindByEmailAsync(email!);
 
     if (user is null) {

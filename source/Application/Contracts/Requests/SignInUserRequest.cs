@@ -4,7 +4,7 @@
 namespace MyFinances.Application.Contracts.Requests;
 
 public sealed record SignInUserRequest(
-  string? UserName,
+  string? Username,
   string? Email,
   string Password
 );

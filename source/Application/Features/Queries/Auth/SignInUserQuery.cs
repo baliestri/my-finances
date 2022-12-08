@@ -8,7 +8,7 @@ using MyFinances.Application.Contracts.Responses;
 namespace MyFinances.Application.Features.Queries.Auth;
 
 public sealed record SignInUserQuery(
-  string? UserName,
+  string? Username,
   string? Email,
   string Password
 ) : IRequest<ErrorOr<SuccessfulAuthResponse>>;

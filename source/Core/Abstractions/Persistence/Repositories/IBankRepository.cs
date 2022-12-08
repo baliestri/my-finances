@@ -9,4 +9,3 @@ namespace MyFinances.Core.Abstractions.Persistence.Repositories;
 public interface IBankRepository : IRepository<Bank> {
   Task<Bank?> GetByNameAsync(string name);
 }
-

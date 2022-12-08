@@ -7,12 +7,12 @@ namespace MyFinances.Application.Features.Queries.Auth;
 
 public sealed class SignInUserQueryValidator : AbstractValidator<SignInUserQuery> {
   public SignInUserQueryValidator() {
-    RuleFor(query => query.UserName)
+    RuleFor(query => query.Username)
       .Null()
       .When(query => query.Email is not null);
     RuleFor(query => query.Email)
       .Null()
-      .When(query => query.UserName is not null);
+      .When(query => query.Username is not null);
     RuleFor(query => query.Password)
       .NotEmpty()
       .MinimumLength(12)
