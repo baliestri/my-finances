@@ -24,11 +24,11 @@ public static class ServiceCollectionExtensions {
   private static IServiceCollection AddIoCOptions(
     this IServiceCollection serviceCollection, IConfiguration configuration
   ) => serviceCollection
-    .Configure<JwtTokenOptions>(configuration.GetSection("JwtToken"));
+    .Configure<JwtTokenOptions>(configuration.GetSection("MyFinances:JwtToken"));
 
   private static IServiceCollection AddRepositories(this IServiceCollection serviceCollection)
     => serviceCollection
-      .AddSingleton<IUserRepository, UserRepository>(); // Singleton until we have a database
+      .AddScoped<IUserRepository, UserRepository>();
 
   private static IServiceCollection AddProviders(this IServiceCollection serviceCollection)
     => serviceCollection
@@ -39,6 +39,6 @@ public static class ServiceCollectionExtensions {
     => serviceCollection
       .AddDbContext<DataContext>(
         options
-          => options.UseSqlServer(configuration["MY_FINANCES_MSSQL_CONNECTION_STRING"])
+          => options.UseSqlServer(configuration["MyFinances:Database:ConnectionString"])
       );
 }
