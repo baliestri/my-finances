@@ -22,8 +22,9 @@ public static class WebApplicationExtensions {
       .UseSwaggerForDevelopment()
       .UseExceptionHandler("/api/error")
       .UseHttpsRedirection()
-      .UseAuthorization()
       .UseRouting()
+      .UseAuthentication()
+      .UseAuthorization()
       .UseEndpoints(builder => builder.MapControllers());
 
     return app;

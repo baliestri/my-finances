@@ -1,30 +1,51 @@
 ﻿// Copyright (c) Bruno Sales <me@baliestri.dev>.Licensed under the MIT License.
 // See the LICENSE file in the repository root for full license text.
 
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using MyFinances.Application.Abstractions.Providers;
 using MyFinances.Core.Abstractions.Persistence.Repositories;
 using MyFinances.IoC.Options;
 using MyFinances.IoC.Persistence;
 using MyFinances.IoC.Persistence.Repositories;
 using MyFinances.IoC.Providers;
+using MSOptions = Microsoft.Extensions.Options.Options;
 
 namespace MyFinances.IoC;
 
 public static class ServiceCollectionExtensions {
-  public static IServiceCollection AddIoCLayer(this IServiceCollection serviceCollection, IConfiguration configuration)
-    => serviceCollection
+  public static IServiceCollection AddIoCLayer(
+    this IServiceCollection serviceCollection, IConfiguration configuration
+  ) {
+    var tokenOptions = new JwtTokenOptions();
+    configuration.Bind("MyFinances:JwtToken", tokenOptions);
+
+    serviceCollection
       .AddDatabase(configuration)
-      .AddIoCOptions(configuration)
+      .AddSingleton(MSOptions.Create(tokenOptions))
       .AddRepositories()
       .AddProviders();
+    serviceCollection
+      .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+      .AddJwtBearer(
+        options => {
+          options.TokenValidationParameters = new TokenValidationParameters {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidIssuer = tokenOptions.Issuer,
+            ValidAudience = tokenOptions.Audience,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenOptions.Secret))
+          };
+        }
+      );
 
-  private static IServiceCollection AddIoCOptions(
-    this IServiceCollection serviceCollection, IConfiguration configuration
-  ) => serviceCollection
-    .Configure<JwtTokenOptions>(configuration.GetSection("MyFinances:JwtToken"));
+    return serviceCollection;
+  }
 
   private static IServiceCollection AddRepositories(this IServiceCollection serviceCollection)
     => serviceCollection

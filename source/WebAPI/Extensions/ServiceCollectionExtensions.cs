@@ -91,18 +91,28 @@ public static class ServiceCollectionExtensions {
           );
           options.IncludeXmlComments(_xmlFile);
 
-          var securityScheme = new OpenApiSecurityScheme {
-            Name = "Authorization",
-            In = ParameterLocation.Header,
-            Type = SecuritySchemeType.ApiKey
-          };
-
-          var securityRequirement = new OpenApiSecurityRequirement {
-            { securityScheme, new[] { "Bearer" } }
-          };
-
-          options.AddSecurityDefinition("Bearer", securityScheme);
-          options.AddSecurityRequirement(securityRequirement);
+          options.AddSecurityDefinition(
+            "Bearer", new OpenApiSecurityScheme {
+              Name = "Authorization",
+              In = ParameterLocation.Header,
+              Type = SecuritySchemeType.ApiKey,
+              Scheme = "Bearer",
+              BearerFormat = "JWT"
+            }
+          );
+          options.AddSecurityRequirement(
+            new OpenApiSecurityRequirement {
+              {
+                new OpenApiSecurityScheme {
+                  Reference = new OpenApiReference {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                  }
+                },
+                new[] { "Bearer" }
+              }
+            }
+          );
         }
       );
 
