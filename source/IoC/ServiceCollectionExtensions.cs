@@ -1,11 +1,13 @@
 ﻿// Copyright (c) Bruno Sales <me@baliestri.dev>.Licensed under the MIT License.
 // See the LICENSE file in the repository root for full license text.
 
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MyFinances.Application.Abstractions.Providers;
 using MyFinances.Core.Abstractions.Persistence.Repositories;
 using MyFinances.IoC.Options;
+using MyFinances.IoC.Persistence;
 using MyFinances.IoC.Persistence.Repositories;
 using MyFinances.IoC.Providers;
 
@@ -14,6 +16,7 @@ namespace MyFinances.IoC;
 public static class ServiceCollectionExtensions {
   public static IServiceCollection AddIoCLayer(this IServiceCollection serviceCollection, IConfiguration configuration)
     => serviceCollection
+      .AddDatabase(configuration)
       .AddIoCOptions(configuration)
       .AddRepositories()
       .AddProviders();
@@ -31,4 +34,11 @@ public static class ServiceCollectionExtensions {
     => serviceCollection
       .AddSingleton<IDateTimeProvider, DateTimeProvider>()
       .AddSingleton<IJwtTokenProvider, JwtTokenProvider>();
+
+  private static IServiceCollection AddDatabase(this IServiceCollection serviceCollection, IConfiguration configuration)
+    => serviceCollection
+      .AddDbContext<DataContext>(
+        options
+          => options.UseSqlServer(configuration["MY_FINANCES_MSSQL_CONNECTION_STRING"])
+      );
 }
