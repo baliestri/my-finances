@@ -1,0 +1,17 @@
+version: "3.8"
+
+services:
+  database:
+    image: mcr.microsoft.com/mssql/rhel/server:2022-latest
+    container_name: my-finances-db
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=yourStrong(!)Password
+    ports:
+      - "1433:1433"
+    networks:
+      - my-finances-network
+
+networks:
+  my-finances-network:
+    driver: bridge
