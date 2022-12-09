@@ -8,5 +8,6 @@ namespace MyFinances.Core.Abstractions.Persistence.Repositories;
 
 public interface IUserRepository : IRepository<User> {
   Task<User?> FindByEmailAsync(string email);
-  Task<User?> FindByUsernameAsync(string userName);
+  Task<User?> FindByUsernameAsync(string username);
 }
+
