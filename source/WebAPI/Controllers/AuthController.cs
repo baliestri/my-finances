@@ -3,6 +3,7 @@
 
 using MapsterMapper;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyFinances.Application.Contracts.Requests;
 using MyFinances.Application.Contracts.Responses;
@@ -15,6 +16,7 @@ namespace MyFinances.WebAPI.Controllers;
 /// <summary>
 ///   A controller for handling user creation and authentication.
 /// </summary>
+[AllowAnonymous]
 public sealed class AuthController : BaseController {
   private readonly ILogger<AuthController> _logger;
   private readonly IMapper _mapper;
