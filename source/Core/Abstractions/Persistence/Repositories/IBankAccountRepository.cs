@@ -9,4 +9,3 @@ namespace MyFinances.Core.Abstractions.Persistence.Repositories;
 public interface IBankAccountRepository : IRepository<BankAccount> {
   Task<BankAccount?> GetByUserIdAsync(Guid userId);
 }
-

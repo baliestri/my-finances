@@ -12,5 +12,3 @@ public interface IBankTransactionRepository : IRepository<BankTransaction> {
   Task<IEnumerable<BankTransaction>> FilterByDateRangeAsync(DateTime startDate, DateTime endDate);
   Task<IEnumerable<BankTransaction>> FilterByAmountRangeAsync(decimal minAmount, decimal maxAmount);
 }
-
-
