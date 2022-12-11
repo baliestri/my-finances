@@ -24,6 +24,8 @@ public static class WebApplicationExtensions {
       .UseHttpsRedirection()
       .UseAuthorization()
       .UseRouting()
+      .UseAuthentication()
+      .UseAuthorization()
       .UseEndpoints(builder => builder.MapControllers());
 
     return app;
