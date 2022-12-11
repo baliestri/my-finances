@@ -91,18 +91,33 @@ public static class ServiceCollectionExtensions {
           );
           options.IncludeXmlComments(_xmlFile);
 
-          var securityScheme = new OpenApiSecurityScheme {
-            Name = "Authorization",
-            In = ParameterLocation.Header,
-            Type = SecuritySchemeType.ApiKey
-          };
-
-          var securityRequirement = new OpenApiSecurityRequirement {
-            { securityScheme, new[] { "Bearer" } }
-          };
-
-          options.AddSecurityDefinition("Bearer", securityScheme);
-          options.AddSecurityRequirement(securityRequirement);
+          options.AddSecurityDefinition(
+            "Bearer", new OpenApiSecurityScheme {
+              Name = "Authorization",
+              Type = SecuritySchemeType.ApiKey,
+              Scheme = "Bearer",
+              BearerFormat = "JWT",
+              In = ParameterLocation.Header,
+              Description = """
+              JWT Authorization header using the Bearer scheme.<br />
+              Enter 'Bearer' [space] and then your token in the text input below.<br />
+              Example: "Bearer 12345abcdef"
+              """
+            }
+          );
+          options.AddSecurityRequirement(
+            new OpenApiSecurityRequirement {
+              {
+                new OpenApiSecurityScheme {
+                  Reference = new OpenApiReference {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                  }
+                },
+                Array.Empty<string>()
+              }
+            }
+          );
         }
       );
 
